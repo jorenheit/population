@@ -54,7 +54,7 @@ class PopulationIterator__
     friend PopulationIterator__ begin<Population_t>(Population_t &);
     friend PopulationIterator__ end<Population_t>(Population_t &);
     friend PopulationIterator__<typename std::conditional<std::is_const<Population_t>::value, 
-                                                          typename std::remove_const<Population_t>::type,
+                                                          Population_t,
                                                           Population_t const>::type>;
                             
     friend Population_t;
@@ -66,6 +66,8 @@ class PopulationIterator__
 
     Population_t &d_population;
     int d_idx;
+
+private: // Private constructors, only accessible to friends
 
     PopulationIterator__(Population_t &pop, IteratorValue val): 
         d_population(pop)
