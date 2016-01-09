@@ -6,6 +6,9 @@
 #include <stack>
 #include "agent.h"
 
+template <typename Population_t>
+class PopulationIterator__;
+
 class Population
 {
     template  <typename T> friend class PopulationIterator__;
@@ -25,13 +28,19 @@ public:
     void add(Gender g, int age);
     void kill(Agent const &agent);
 
+    PopulationIterator__<Population> find(Agent const &agent);
+    PopulationIterator__<Population const> find(Agent const &agent) const;
+
+    PopulationIterator__<Population> begin();
+    PopulationIterator__<Population> end();
+
+    PopulationIterator__<Population const> begin() const;
+    PopulationIterator__<Population const> end() const;
+
 private:
     Agent &operator[](int idx) { return d_agents[idx]; }
     Agent const &operator[](int idx) const { return d_agents[idx]; }
 };
-
-template <typename Population_t>
-class PopulationIterator__;
 
 template <typename Population_t>
 PopulationIterator__<Population_t> begin(Population_t &);
@@ -44,6 +53,11 @@ class PopulationIterator__
 {
     friend PopulationIterator__ begin<Population_t>(Population_t &);
     friend PopulationIterator__ end<Population_t>(Population_t &);
+    friend PopulationIterator__<typename std::conditional<std::is_const<Population_t>::value, 
+                                                          typename std::remove_const<Population_t>::type,
+                                                          Population_t const>::type>;
+                            
+    friend Population_t;
 
     enum class IteratorValue { 
         BEGIN = -1,
@@ -68,6 +82,15 @@ class PopulationIterator__
             throw std::string("Default reached in constructor of PopulationIterator");
         }
     }
+
+    PopulationIterator__(Population_t &pop, int idx): 
+        d_population(pop),
+        d_idx(idx)
+    {
+        if (idx < pop.d_first || idx > pop.d_last || !pop[idx].alive())
+            throw std::string("Attempt to construct iterator to invalid agent.");
+    }
+
 
 public:
     PopulationIterator__ &operator++()
@@ -103,18 +126,26 @@ public:
         return *this;
     }
 
-    bool operator==(PopulationIterator__ const &other)
+    template <typename T>
+    bool operator==(PopulationIterator__<T> const &other)
     {
         return d_idx == other.d_idx;
     }
 
-    bool operator!=(PopulationIterator__ const &other)
+    template <typename T>
+    bool operator!=(PopulationIterator__<T> const &other)
     {
         return d_idx != other.d_idx;
     }
 
+    typename std::conditional<std::is_const<Population_t>::value, Agent const *, Agent *>::type
+    operator->() const
+    {
+        return &d_population[d_idx];
+    }
+
     typename std::conditional<std::is_const<Population_t>::value, Agent const&, Agent&>::type
-    operator*() 
+    operator*() const
     { 
         if (d_idx == static_cast<int>(IteratorValue::END))
             throw std::string("Trying to dereference end-iterator");
@@ -122,7 +153,6 @@ public:
         return d_population[d_idx]; 
     }
 };
-
 
 template <typename Population_t>
 inline PopulationIterator__<Population_t> begin(Population_t &pop) 

@@ -2,7 +2,7 @@
 
 Population::Population(int nStart)
 {
-    d_agents.reserve(10 * nStart);
+    d_agents.reserve(5 * nStart);
     for (int i = 0; i != nStart; ++i)
     {
         d_agents.emplace_back(Agent(std::rand() % 2 ? Gender::MALE : Gender::FEMALE));
@@ -81,4 +81,36 @@ void Population::kill(Agent const &agent)
         while (!d_agents[--d_last]) {}
     }
 }
+
+PopulationIterator__<Population> Population::find(Agent const &agent)
+{
+    return PopulationIterator__<Population>(*this, agent.getIdx());
+}
+
+
+PopulationIterator__<Population const> Population::find(Agent const &agent) const
+{
+    return PopulationIterator__<Population const>(*this, agent.getIdx());
+}
+
+PopulationIterator__<Population> Population::begin() 
+{ 
+    return ::begin(*this);
+}
+
+PopulationIterator__<Population> Population::end() 
+{ 
+    return ::end(*this);
+}
+
+PopulationIterator__<Population const> Population::begin() const
+{ 
+    return ::begin(*this);
+}
+
+PopulationIterator__<Population const> Population::end() const
+{ 
+    return ::end(*this);
+}
+
 

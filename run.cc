@@ -93,7 +93,7 @@ void nextYear(Population &pop)
 void run(int nStart, int nYears)
 {
     Population pop(nStart);
-    
+
     Timer timer;
     for (int i = 0; i != nYears; ++i)
     {
