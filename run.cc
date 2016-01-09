@@ -7,7 +7,7 @@ struct ChildPolicy
 {
     static bool hasChild(Agent const &a)
     {
-        if (a.gender() ==  Gender::MALE)
+        if (a.gender() ==  Gender::MALE || a.nChildren() > 4)
             return false;
         
         static double const maternity[][9] = {
@@ -26,7 +26,6 @@ struct ChildPolicy
         for (int i = 0; i != 9; ++i)
             if (age >= maternity[i][0] && age <= maternity[i][1])
             {
-//                int nChildren = a.nChildren();
                 double p = maternity[i][2];
                 return static_cast<double>(std::rand()) / RAND_MAX < p;
             }
@@ -50,7 +49,7 @@ struct KillPolicy
             {55,     64,     112,     178},
             {65,     74,      42,      65},
             {75,     84,      15,      21},
-            {85,     (int)1e6, 6,       7}
+            {85,     1000,     6,       7}
         };
 
         int age = a.age();

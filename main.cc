@@ -16,5 +16,5 @@ try
 }
 catch (std::string const &msg)
 {
-    std::cerr << msg << '\n';
+    std::cerr << "Error: " << msg << '\n';
 }
