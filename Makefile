@@ -1,11 +1,19 @@
 CC=g++
 CFLAGS=-c -Wall --std=c++11
-LDFLAGS=
-SOURCES=main.cc run.cc population.cc agent.cc
+LDFLAGS=-lm
+SOURCES=main.cc run.cc population.cc agent.cc coordinate.cc
 OBJECTS=$(SOURCES:.cc=.o)
 EXECUTABLE=test
 
 all: $(SOURCES) $(EXECUTABLE)
+
+depend: .depend
+
+.depend: $(SOURCES)
+	rm -f ./.depend
+	$(CC) $(CFLAGS) -MM $^ -MF  ./.depend;
+
+include .depend
 
 $(EXECUTABLE): $(OBJECTS) 
 	$(CC) $(LDFLAGS) $(OBJECTS) -o $@

@@ -1,7 +1,8 @@
 #include "agent.h"
 
-Agent::Agent(Gender g, int age):
+Agent::Agent(Gender g, Coordinate const &c, int age):
     d_gender(g),
+    d_coord(c),
     d_age(age)
 {}
 
@@ -66,4 +67,14 @@ bool Agent::operator==(Agent const &other) const
 bool Agent::operator!=(Agent const &other) const
 {
     return d_idx != -1 && d_idx != other.d_idx;
+}
+
+Coordinate const &Agent::coordinate() const
+{
+    return d_coord;
+}
+
+double distance(Agent const &a1, Agent const &a2)
+{
+    return distance(a1.coordinate(), a2.coordinate());
 }

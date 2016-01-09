@@ -1,6 +1,8 @@
 #ifndef AGENT_H
 #define AGENT_H
+
 #include <iostream>
+#include "coordinate.h"
 
 enum class Gender
 {
@@ -17,6 +19,7 @@ inline std::ostream &operator<<(std::ostream &out, Gender g)
 class Agent
 {
     Gender d_gender;
+    Coordinate d_coord;
     int d_age;
 
     bool d_alive = true;
@@ -25,7 +28,7 @@ class Agent
 
 public:
 
-    Agent(Gender g, int age = 0);
+    Agent(Gender g, Coordinate const &c = Coordinate(), int age = 0);
 
     void setIdx(int idx);
     void getOlder(int amount = 1);
@@ -37,9 +40,12 @@ public:
     int age() const;
     bool alive() const;
     int getIdx() const;
+    Coordinate const &coordinate() const;
     operator bool() const;
     bool operator==(Agent const &other) const;
     bool operator!=(Agent const &other) const;
 };
+
+double distance(Agent const &a1, Agent const &a2);
 
 #endif
