@@ -26,10 +26,6 @@ class Population
 
 public:
     explicit Population(int nStart = 0);
-    explicit Population(std::vector<int> const &ages);
-    explicit Population(std::vector<Coordinate> const &coords);
-    Population(std::vector<int> const &ages, 
-               std::vector<Coordinate> const &coords);
 
     int size() const;
     void add(Population const &other);
