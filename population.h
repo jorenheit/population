@@ -38,11 +38,10 @@ public:
     void kill(Agent const &agent);
 
     PopulationIterator find(Agent const &agent);
-    ConstPopulationIterator find(Agent const &agent) const;
-
     PopulationIterator begin();
     PopulationIterator end();
 
+    ConstPopulationIterator find(Agent const &agent) const;
     ConstPopulationIterator begin() const;
     ConstPopulationIterator end() const;
 

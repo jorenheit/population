@@ -39,11 +39,11 @@ private: // Private constructors, only accessible to friends
         }
     }
 
-    PopulationIterator__(Population_t &pop, int idx): 
+    PopulationIterator__(Population_t &pop, Agent const &agent): 
         d_population(pop),
-        d_idx(idx)
+        d_idx(agent.getIdx())
     {
-        if (idx < pop.d_first || idx > pop.d_last || !pop[idx].alive())
+        if (d_idx < 0 || !pop[d_idx].alive())
             throw std::string("Attempt to construct iterator to invalid agent.");
     }
 
@@ -51,7 +51,8 @@ private: // Private constructors, only accessible to friends
 public:
     PopulationIterator__ &operator++()
     {
-        if (d_population.size() == 0 || d_idx >= d_population.d_last)
+        if (d_population.size() == 0 || d_idx >= d_population.d_last || 
+            d_idx == static_cast<int>(IteratorValue::END))
         {
             d_idx = static_cast<int>(IteratorValue::END);
             return *this;
@@ -66,15 +67,15 @@ public:
 
     PopulationIterator__ &operator--()
     {
+        if (d_idx == d_population.d_first)
+            return *this;
+
         if (d_population.size() == 0)
         {
             d_idx = static_cast<int>(IteratorValue::END);
             return *this;
         }
             
-        if (d_idx == d_population.d_first)
-            return *this;
-
         // Look for previous alive agent
         while (!d_population[--d_idx]) 
         {}
@@ -149,17 +150,29 @@ public:
 };
 
 template <typename Population_t>
-inline PopulationIterator__<Population_t> operator+(PopulationIterator__<Population_t> const &lhs, int amount)
+inline PopulationIterator__<Population_t> operator+(PopulationIterator__<Population_t> const &it, int amount)
 {
-    PopulationIterator__<Population_t> copy(lhs);
+    PopulationIterator__<Population_t> copy(it);
     return (copy += amount);
 }
 
 template <typename Population_t>
-inline PopulationIterator__<Population_t> operator-(PopulationIterator__<Population_t> const &lhs, int amount)
+inline PopulationIterator__<Population_t> operator-(PopulationIterator__<Population_t> const &it, int amount)
 {
-    PopulationIterator__<Population_t> copy(lhs);
+    PopulationIterator__<Population_t> copy(it);
     return (copy -= amount);
+}
+
+template <typename Population_t>
+inline PopulationIterator__<Population_t> operator+(int amount, PopulationIterator__<Population_t> const &it)
+{
+    return it + amount;
+}
+
+template <typename Population_t>
+inline PopulationIterator__<Population_t> operator-(int amount, PopulationIterator__<Population_t> const &it)
+{
+    return it - amount;
 }
 
 template <typename Population_t>

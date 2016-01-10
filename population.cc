@@ -135,13 +135,13 @@ void Population::kill(Agent const &agent)
 
 PopulationIterator__<Population> Population::find(Agent const &agent)
 {
-    return PopulationIterator__<Population>(*this, agent.getIdx());
+    return PopulationIterator__<Population>(*this, agent);
 }
 
 
 PopulationIterator__<Population const> Population::find(Agent const &agent) const
 {
-    return PopulationIterator__<Population const>(*this, agent.getIdx());
+    return PopulationIterator__<Population const>(*this, agent);
 }
 
 PopulationIterator__<Population> Population::begin() 
