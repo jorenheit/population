@@ -11,6 +11,7 @@ class PopulationIterator__
     // allowed to construct iterators. 
     friend PopulationIterator__ begin<Population_t>(Population_t &);
     friend PopulationIterator__ end<Population_t>(Population_t &);
+    friend class PopulationIterator__<Population>;
     friend Population_t;
 
     enum class IteratorValue { 
@@ -46,7 +47,6 @@ private: // Private constructors, only accessible to friends
         if (d_idx < 0 || !pop[d_idx].alive())
             throw std::string("Attempt to construct iterator to invalid agent.");
     }
-
 
 public:
     PopulationIterator__ &operator++()
@@ -113,22 +113,12 @@ public:
         return *this;
     }
 
-    bool operator==(PopulationIterator__<Population> const &other)
+    bool operator==(PopulationIterator__<Population_t> const &other)
     {
         return d_idx == other.d_idx;
     }
 
-    bool operator==(PopulationIterator__<Population const> const &other)
-    {
-        return d_idx == other.d_idx;
-    }
-
-    bool operator!=(PopulationIterator__<Population> const &other)
-    {
-        return d_idx != other.d_idx;
-    }
-
-    bool operator!=(PopulationIterator__<Population const> const &other)
+    bool operator!=(PopulationIterator__<Population_t> const &other)
     {
         return d_idx != other.d_idx;
     }
@@ -146,6 +136,11 @@ public:
             throw std::string("Trying to dereference end-iterator");
 
         return d_population[d_idx]; 
+    }
+
+    operator PopulationIterator__<Population_t const>()
+    {
+        return PopulationIterator__<Population_t const>(d_population, d_population[d_idx]);
     }
 };
 

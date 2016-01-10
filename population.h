@@ -27,18 +27,19 @@ class Population
 public:
     explicit Population(int nStart = 0);
 
-    int size() const;
     void add(Population const &other);
     void add(Agent const &agent);
     void kill(Agent const &agent);
 
-    PopulationIterator find(Agent const &agent);
+    int size() const;
+
     PopulationIterator begin();
     PopulationIterator end();
+    PopulationIterator find(Agent const &agent);
 
-    ConstPopulationIterator find(Agent const &agent) const;
     ConstPopulationIterator begin() const;
     ConstPopulationIterator end() const;
+    ConstPopulationIterator find(Agent const &agent) const;
 
 private:
     Agent &operator[](int idx) { return d_agents[idx]; }

@@ -1,7 +1,12 @@
 CC=g++
 CFLAGS=-c -Wall --std=c++11
 LDFLAGS=-lm
-SOURCES=main.cc run.cc population.cc agent.cc coordinate.cc
+SOURCES=main.cc \
+run.cc \
+population.cc \
+agent.cc \
+coordinate.cc \
+basicpolicies.cc
 OBJECTS=$(SOURCES:.cc=.o)
 EXECUTABLE=test
 
