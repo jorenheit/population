@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS=-c -Wall --std=c++11
+CFLAGS=-c -Wall --std=c++11 -O3
 LDFLAGS=-lm
 SOURCES=main.cc \
 run.cc \

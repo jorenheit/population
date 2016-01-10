@@ -17,18 +17,19 @@ inline std::ostream &operator<<(std::ostream &out, Gender g)
 
 class Agent
 {
+    static int s_agentCounter;
+
     Gender d_gender;
     Coordinate d_coord;
     int d_age;
+    int d_id;
 
     bool d_alive = true;
-    int d_idx = -1;
     int d_nChildren = 0;
 
 public:
     Agent(Gender g, Coordinate const &c = Coordinate(), int age = 0);
 
-    void setIdx(int idx);
     void getOlder(int amount = 1);
     void giveBirth(); 
     void kill(); 
@@ -38,7 +39,6 @@ public:
     int nChildren() const;
     int age() const;
     bool alive() const;
-    int getIdx() const;
     Coordinate const &coordinate() const;
     operator bool() const;
     bool operator==(Agent const &other) const;

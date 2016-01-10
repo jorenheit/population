@@ -1,9 +1,12 @@
 #include "agent.h"
 
+int Agent::s_agentCounter = 0;
+
 Agent::Agent(Gender g, Coordinate const &c, int age):
     d_gender(g),
     d_coord(c),
-    d_age(age)
+    d_age(age),
+    d_id(s_agentCounter++)
 {}
 
 void Agent::getOlder(int amount)
@@ -44,16 +47,6 @@ bool Agent::alive() const
     return d_alive;
 }
     
-int Agent::getIdx() const
-{
-    return d_idx;
-}
-
-void Agent::setIdx(int idx)
-{
-    d_idx = idx;
-}
-
 Agent::operator bool() const
 { 
     return d_alive; 
@@ -61,12 +54,12 @@ Agent::operator bool() const
 
 bool Agent::operator==(Agent const &other) const
 {
-    return d_idx != -1 && d_idx == other.d_idx;
+    return d_id == other.d_id;
 }
 
 bool Agent::operator!=(Agent const &other) const
 {
-    return d_idx != -1 && d_idx != other.d_idx;
+    return !operator==(other);
 }
 
 Coordinate const &Agent::coordinate() const

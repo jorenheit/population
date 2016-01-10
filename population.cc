@@ -6,10 +6,7 @@ Population::Population(int nStart):
 {
     d_agents.reserve(5 * nStart);
     for (int i = 0; i != nStart; ++i)
-    {
         d_agents.emplace_back(std::rand() % 2 ? Gender::MALE : Gender::FEMALE);
-        d_agents.back().setIdx(i);
-    }
 
     d_deadIndices.push(-1);
 }
@@ -26,12 +23,10 @@ void Population::add(Agent const &agent)
     {
         d_agents.emplace_back(agent);
         d_last = d_agents.size() - 1;
-        d_agents.back().setIdx(d_last);
     }
     else
     {
         d_agents[idx] = agent;
-        d_agents[idx].setIdx(idx);
         d_deadIndices.pop();
             
         if (idx < d_first)
@@ -41,16 +36,13 @@ void Population::add(Agent const &agent)
     }
 }
 
-void Population::kill(Agent const &agent)
+void Population::kill(Agent &agent)
 {
-    int idx = agent.getIdx(); 
-    if (idx == -1)
-        return;
-
-    if (!d_agents[idx])
+    if (!agent)
         return; //already dead
 
-    d_agents[idx].kill();
+    agent.kill();
+    int idx = getIdx(agent);
     d_deadIndices.push(idx);
 
     if (size() == 0)
@@ -67,6 +59,11 @@ void Population::kill(Agent const &agent)
     { // update d_last
         while (!d_agents[--d_last]) {}
     }
+}
+
+int Population::getIdx(Agent const &agent) const
+{
+    return &agent - &d_agents[0];
 }
 
 PopulationIterator__<Population> Population::find(Agent const &agent)
@@ -100,4 +97,51 @@ PopulationIterator__<Population const> Population::end() const
     return ::end(*this);
 }
 
+Population initialPopulation(int nStart)
+{
+    static int const ages[][19] = {
+        {0, 4}, {5, 9}, {10, 14}, {15, 19},
+        {20, 24}, {25, 29}, {30, 34}, {35, 39},
+        {40, 44}, {45, 49}, {50, 54}, {55, 59},
+        {60, 64}, {65, 69}, {70, 74}, {75, 79},
+        {80, 84}, {85, 89}, {90, 100}
+    };
 
+    static constexpr int N_AGE_CATEGORIES = std::extent<decltype(ages), 1>::value;
+    
+    static double const fractions[N_AGE_CATEGORIES] = {
+        0.062, 0.056, 0.058, 0.063,
+        0.068, 0.068, 0.065, 0.066,
+        0.073, 0.073, 0.065, 0.057,
+        0.060, 0.048, 0.039, 0.032,
+        0.024, 0.015, 0.008
+    };
+
+    Population result;
+    int nTotal = 0;
+    for (int i = 0; i != N_AGE_CATEGORIES; ++i)
+    {
+        int minAge = ages[i][0];
+        int maxAge = ages[i][1];
+        int ageDiff = maxAge - minAge;
+        int n = fractions[i] * nStart;
+        for (int j = 0; j != n; ++j)
+        {
+            int age = minAge + ageDiff * (static_cast<double>(std::rand()) / RAND_MAX);
+            Gender g = std::rand() % 2 ? Gender::MALE : Gender::FEMALE;
+            result.add(Agent(g, Coordinate(), age));
+        }
+
+        nTotal += n;
+    }
+    
+    for (int i = 0; i != nStart - nTotal; ++i)
+    {
+        int age = ages[0][0] + (ages[N_AGE_CATEGORIES - 1][1] - ages[0][0]) * 
+            (static_cast<double>(std::rand()) / RAND_MAX);
+        Gender g = std::rand() % 2 ? Gender::MALE : Gender::FEMALE;
+        result.add(Agent(g, Coordinate(), age));
+    }
+
+    return result;
+}

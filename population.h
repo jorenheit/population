@@ -17,9 +17,8 @@ using ConstPopulationIterator = PopulationIterator__<Population const>;
 class Population
 {
     template  <typename T> friend class PopulationIterator__;
-    using Vector = std::vector<Agent>;
 
-    Vector d_agents;
+    std::vector<Agent> d_agents;
     std::stack<int> d_deadIndices;
     int d_first;
     int d_last;
@@ -30,7 +29,7 @@ public:
 
     template <typename AgentIter> void add(AgentIter it, AgentIter end);
     void add(Agent const &agent);
-    void kill(Agent const &agent);
+    void kill(Agent &agent);
     int size() const;
 
     PopulationIterator begin();
@@ -44,17 +43,19 @@ public:
 private:
     Agent &operator[](int idx) { return d_agents[idx]; }
     Agent const &operator[](int idx) const { return d_agents[idx]; }
+    int getIdx(Agent const &agent) const;
 };
+
+// Helper function to generate an initial population
+Population initialPopulation(int nStart);
+
 
 template <typename AgentIter>
 Population::Population(AgentIter it, AgentIter end)
 {
     int idx = 0;
     while (it != end)
-    {
         d_agents.emplace_back(*it++);
-        d_agents.back().setIdx(idx++);
-    }
 
     d_deadIndices.push(-1);
 }

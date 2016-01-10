@@ -46,7 +46,7 @@ private: // Private constructors, only accessible to friends
 
     PopulationIterator__(Population_t &pop, Agent const &agent): 
         d_population(pop),
-        d_idx(agent.getIdx())
+        d_idx(pop.getIdx(agent))
     {
         if (d_idx == static_cast<Index_t>(IteratorValue::END) || !pop[d_idx].alive())
             throw std::string("Attempt to construct iterator to invalid agent.");
