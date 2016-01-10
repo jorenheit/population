@@ -34,7 +34,6 @@ public:
     int size() const;
     void add(Population const &other);
     void add(Agent const &agent);
-    void add(Gender g, int age);
     void kill(Agent const &agent);
 
     PopulationIterator find(Agent const &agent);

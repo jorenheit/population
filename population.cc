@@ -70,11 +70,6 @@ int Population::size() const
     return d_agents.size() - d_deadIndices.size() + 1; 
 }
 
-void Population::add(Gender g, int age)
-{
-    add(Agent(g, age));
-}
-
 void Population::add(Agent const &agent)
 {
     int idx = d_deadIndices.top();
