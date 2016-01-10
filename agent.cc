@@ -1,6 +1,6 @@
 #include "agent.h"
 
-int Agent::s_agentCounter = 0;
+size_t Agent::s_agentCounter = 0;
 
 Agent::Agent(Gender g, Coordinate const &c, int age):
     d_gender(g),

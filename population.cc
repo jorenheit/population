@@ -63,7 +63,11 @@ void Population::kill(Agent &agent)
 
 int Population::getIdx(Agent const &agent) const
 {
-    return &agent - &d_agents[0];
+    int idx = &agent - &d_agents[0];
+    if (idx < 0 || idx >= static_cast<int>(d_agents.size()))
+        throw std::string("Attempted to get the index of an agent that is not part of the population.");
+
+    return idx;
 }
 
 PopulationIterator__<Population> Population::find(Agent const &agent)

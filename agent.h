@@ -17,12 +17,12 @@ inline std::ostream &operator<<(std::ostream &out, Gender g)
 
 class Agent
 {
-    static int s_agentCounter;
+    static size_t s_agentCounter;
 
     Gender d_gender;
     Coordinate d_coord;
     int d_age;
-    int d_id;
+    size_t d_id;
 
     bool d_alive = true;
     int d_nChildren = 0;
