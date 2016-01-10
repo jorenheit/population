@@ -7,14 +7,14 @@
 template <typename ChildPolicy, typename KillPolicy>
 void nextYear(Population &pop)
 {
-    Population nextGen;
+    std::vector<Agent> nextGen;
 
     for (auto &agent: pop)
     {
         if (ChildPolicy::hasChild(agent))
         {
             agent.giveBirth();
-            nextGen.add(std::rand() % 2 ? Gender::MALE : Gender::FEMALE);
+            nextGen.push_back(std::rand() % 2 ? Gender::MALE : Gender::FEMALE);
         }
 
         if (KillPolicy::isKilled(agent))
@@ -23,17 +23,8 @@ void nextYear(Population &pop)
         agent.getOlder();
     }
 
-    pop.add(nextGen);
+    pop.add(nextGen.begin(), nextGen.end());
 }
-
-template <typename ...>
-struct Error;
-
-void fun1(ConstPopulationIterator const &c)
-{}
-
-void fun2(ConstPopulationIterator &c)
-{}
 
 void run(int nStart, int nYears)
 {

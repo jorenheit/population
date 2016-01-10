@@ -26,11 +26,11 @@ class Population
 
 public:
     explicit Population(int nStart = 0);
+    template <typename AgentIter> Population(AgentIter it, AgentIter end);
 
-    void add(Population const &other);
+    template <typename AgentIter> void add(AgentIter it, AgentIter end);
     void add(Agent const &agent);
     void kill(Agent const &agent);
-
     int size() const;
 
     PopulationIterator begin();
@@ -45,6 +45,28 @@ private:
     Agent &operator[](int idx) { return d_agents[idx]; }
     Agent const &operator[](int idx) const { return d_agents[idx]; }
 };
+
+template <typename AgentIter>
+Population::Population(AgentIter it, AgentIter end)
+{
+    int idx = 0;
+    while (it != end)
+    {
+        d_agents.emplace_back(*it++);
+        d_agents.back().setIdx(idx++);
+    }
+
+    d_deadIndices.push(-1);
+}
+
+
+template <typename AgentIter>
+void Population::add(AgentIter it, AgentIter end)
+{
+    while (it != end)
+        add(*it++);
+}
+
 
 #include "populationiterator.tpp"
 

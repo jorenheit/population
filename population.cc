@@ -41,14 +41,6 @@ void Population::add(Agent const &agent)
     }
 }
 
-void Population::add(Population const &other)
-{
-    for (auto const &agent: other)
-    {
-        add(agent);
-    }
-}
-
 void Population::kill(Agent const &agent)
 {
     int idx = agent.getIdx(); 
