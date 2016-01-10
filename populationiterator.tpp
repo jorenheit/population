@@ -7,12 +7,10 @@ PopulationIterator__<Population_t> end(Population_t &);
 template <typename Population_t>
 class PopulationIterator__
 {
+    // List of friend declarations. Only these classes/functions are
+    // allowed to construct iterators. 
     friend PopulationIterator__ begin<Population_t>(Population_t &);
     friend PopulationIterator__ end<Population_t>(Population_t &);
-    friend PopulationIterator__<typename std::conditional<std::is_const<Population_t>::value, 
-                                                          Population_t,
-                                                          Population_t const>::type>;
-                            
     friend Population_t;
 
     enum class IteratorValue { 
@@ -84,6 +82,36 @@ public:
         return *this;
     }
 
+    PopulationIterator__ operator++(int)
+    {
+        PopulationIterator__ copy(*this);
+        ++(*this);
+        return copy;
+    }
+
+    PopulationIterator__ operator--(int)
+    {
+        PopulationIterator__ copy(*this);
+        --(*this);
+        return copy;
+    }
+
+    PopulationIterator__ &operator+=(int amount)
+    {
+        for (int i = 0; i != amount; ++i)
+            ++(*this);
+
+        return *this;
+    }
+
+    PopulationIterator__ &operator-=(int amount)
+    {
+        for (int i = 0; i != amount; ++i)
+            --(*this);
+
+        return *this;
+    }
+
     bool operator==(PopulationIterator__<Population> const &other)
     {
         return d_idx == other.d_idx;
@@ -119,6 +147,20 @@ public:
         return d_population[d_idx]; 
     }
 };
+
+template <typename Population_t>
+inline PopulationIterator__<Population_t> operator+(PopulationIterator__<Population_t> const &lhs, int amount)
+{
+    PopulationIterator__<Population_t> copy(lhs);
+    return (copy += amount);
+}
+
+template <typename Population_t>
+inline PopulationIterator__<Population_t> operator-(PopulationIterator__<Population_t> const &lhs, int amount)
+{
+    PopulationIterator__<Population_t> copy(lhs);
+    return (copy -= amount);
+}
 
 template <typename Population_t>
 inline PopulationIterator__<Population_t> begin(Population_t &pop) 
