@@ -1,11 +1,62 @@
 #include "population.h"
 
-Population::Population(int nStart)
+Population::Population(int nStart):
+    d_first(0),
+    d_last(nStart - 1)
 {
     d_agents.reserve(5 * nStart);
     for (int i = 0; i != nStart; ++i)
     {
-        d_agents.emplace_back(Agent(std::rand() % 2 ? Gender::MALE : Gender::FEMALE));
+        d_agents.emplace_back(std::rand() % 2 ? Gender::MALE : Gender::FEMALE);
+        d_agents.back().setIdx(i);
+    }
+
+    d_deadIndices.push(-1);
+}
+
+Population::Population(std::vector<int> const &ages):
+    d_first(0),
+    d_last(ages.size() - 1)
+{
+    int nStart = ages.size();
+    d_agents.reserve(5 * nStart);
+    for (int i = 0; i != nStart; ++i)
+    {
+        d_agents.emplace_back(std::rand() % 2 ? Gender::MALE : Gender::FEMALE,
+                              Coordinate(),
+                              ages[i]);
+        d_agents.back().setIdx(i);
+    }
+    d_deadIndices.push(-1);
+}
+
+Population::Population(std::vector<Coordinate> const &coords):
+    d_first(0),
+    d_last(coords.size() - 1)
+{
+    int nStart = coords.size();
+    d_agents.reserve(5 * nStart);
+    for (int i = 0; i != nStart; ++i)
+    {
+        d_agents.emplace_back(std::rand() % 2 ? Gender::MALE : Gender::FEMALE,
+                              coords[i]);
+        d_agents.back().setIdx(i);
+    }
+    d_deadIndices.push(-1);
+}
+
+Population::Population(std::vector<int> const &ages, std::vector<Coordinate> const &coords)
+{
+    if (ages.size() != coords.size())
+        throw std::string("Called Population constructor with vectors of unequal length.");
+
+    int nStart = coords.size();
+    d_agents.reserve(5 * nStart);
+    for (int i = 0; i != nStart; ++i)
+    {
+        d_agents.emplace_back(std::rand() % 2 ? Gender::MALE : Gender::FEMALE,
+                              coords[i],
+                              ages[i]);
         d_agents.back().setIdx(i);
     }
     d_deadIndices.push(-1);

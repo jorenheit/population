@@ -74,6 +74,11 @@ Coordinate const &Agent::coordinate() const
     return d_coord;
 }
 
+void Agent::setCoordinate(Coordinate const &c)
+{
+    d_coord = c;
+}
+
 double distance(Agent const &a1, Agent const &a2)
 {
     return distance(a1.coordinate(), a2.coordinate());

@@ -6,8 +6,13 @@
 #include <stack>
 #include "agent.h"
 
+class Population;
+
 template <typename Population_t>
 class PopulationIterator__;
+
+using PopulationIterator = PopulationIterator__<Population>;
+using ConstPopulationIterator = PopulationIterator__<Population const>;
 
 class Population
 {
@@ -20,7 +25,11 @@ class Population
     int d_last;
 
 public:
-    Population(int nStart = 0);
+    explicit Population(int nStart = 0);
+    explicit Population(std::vector<int> const &ages);
+    explicit Population(std::vector<Coordinate> const &coords);
+    Population(std::vector<int> const &ages, 
+               std::vector<Coordinate> const &coords);
 
     int size() const;
     void add(Population const &other);
@@ -28,14 +37,14 @@ public:
     void add(Gender g, int age);
     void kill(Agent const &agent);
 
-    PopulationIterator__<Population> find(Agent const &agent);
-    PopulationIterator__<Population const> find(Agent const &agent) const;
+    PopulationIterator find(Agent const &agent);
+    ConstPopulationIterator find(Agent const &agent) const;
 
-    PopulationIterator__<Population> begin();
-    PopulationIterator__<Population> end();
+    PopulationIterator begin();
+    PopulationIterator end();
 
-    PopulationIterator__<Population const> begin() const;
-    PopulationIterator__<Population const> end() const;
+    ConstPopulationIterator begin() const;
+    ConstPopulationIterator end() const;
 
 private:
     Agent &operator[](int idx) { return d_agents[idx]; }

@@ -15,7 +15,6 @@ inline std::ostream &operator<<(std::ostream &out, Gender g)
     return (out << (g == Gender::MALE ? "male" : "female"));
 }
 
-
 class Agent
 {
     Gender d_gender;
@@ -27,13 +26,13 @@ class Agent
     int d_nChildren = 0;
 
 public:
-
     Agent(Gender g, Coordinate const &c = Coordinate(), int age = 0);
 
     void setIdx(int idx);
     void getOlder(int amount = 1);
     void giveBirth(); 
     void kill(); 
+    void setCoordinate(Coordinate const &c);
 
     Gender gender() const;
     int nChildren() const;
