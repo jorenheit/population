@@ -100,22 +100,30 @@ PopulationIterator__<Population const> Population::find(Agent const &agent) cons
 
 PopulationIterator__<Population> Population::begin() 
 { 
-    return ::begin(*this);
+//    return ::begin(*this);
+    using Iter_t = PopulationIterator__<Population>;
+    return Iter_t(*this, size() ? Iter_t::IteratorValue::BEGIN : Iter_t::IteratorValue::END); 
 }
 
 PopulationIterator__<Population> Population::end() 
 { 
-    return ::end(*this);
+//    return ::end(*this);
+    using Iter_t = PopulationIterator__<Population>;
+    return Iter_t(*this, Iter_t::IteratorValue::END); 
 }
 
 PopulationIterator__<Population const> Population::begin() const
 { 
-    return ::begin(*this);
+//    return ::begin(*this)
+    using Iter_t = PopulationIterator__<Population const>;
+    return Iter_t(*this, size() ? Iter_t::IteratorValue::BEGIN : Iter_t::IteratorValue::END); 
 }
 
 PopulationIterator__<Population const> Population::end() const
 { 
-    return ::end(*this);
+//    return ::end(*this);
+    using Iter_t = PopulationIterator__<Population const>;
+    return Iter_t(*this, Iter_t::IteratorValue::END); 
 }
 
 Population initialPopulation(int nStart)

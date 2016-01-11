@@ -193,17 +193,3 @@ inline PopulationIterator__<Population_t> operator-(int amount, PopulationIterat
 {
     return it - amount;
 }
-
-template <typename Population_t>
-inline PopulationIterator__<Population_t> begin(Population_t &pop) 
-{ 
-    using Iter_t = PopulationIterator__<Population_t>;
-    return Iter_t(pop, pop.size() ? Iter_t::IteratorValue::BEGIN : Iter_t::IteratorValue::END); 
-}
-
-template <typename Population_t>
-inline PopulationIterator__<Population_t> end(Population_t &pop) 
-{ 
-    using Iter_t = PopulationIterator__<Population_t>;
-    return Iter_t(pop, Iter_t::IteratorValue::END); 
-}

@@ -42,3 +42,4 @@ void run(int nStart, int nYears)
         std::cout << i << '\t' <<  oldSize << '\t' << timer.elapsed().count() << '\n';
     }
 }
+
