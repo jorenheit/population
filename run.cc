@@ -9,8 +9,9 @@ void nextYear(Population &pop)
 {
     std::vector<Agent> nextGen;
 
-    for (auto &agent: pop)
+    for (auto it = pop.begin(); it != pop.end(); ++it)
     {
+        Agent &agent = *it;
         if (ChildPolicy::hasChild(agent))
         {
             agent.giveBirth();

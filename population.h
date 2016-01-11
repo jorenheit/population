@@ -29,6 +29,7 @@ public:
 
     template <typename AgentIter> void add(AgentIter it, AgentIter end);
     void add(Agent const &agent);
+    void kill(PopulationIterator const &it);
     void kill(Agent &agent);
     int size() const;
 
@@ -43,6 +44,7 @@ public:
 private:
     Agent &operator[](int idx) { return d_agents[idx]; }
     Agent const &operator[](int idx) const { return d_agents[idx]; }
+    void kill(int idx);
     int getIdx(Agent const &agent) const;
 };
 

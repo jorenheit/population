@@ -4,7 +4,7 @@ Population::Population(int nStart):
     d_first(0),
     d_last(nStart - 1)
 {
-    d_agents.reserve(5 * nStart);
+    d_agents.reserve(nStart);
     for (int i = 0; i != nStart; ++i)
         d_agents.emplace_back(std::rand() % 2 ? Gender::MALE : Gender::FEMALE);
 
@@ -41,8 +41,22 @@ void Population::kill(Agent &agent)
     if (!agent)
         return; //already dead
 
-    agent.kill();
-    int idx = getIdx(agent);
+    kill(getIdx(agent));
+}
+
+void Population::kill(PopulationIterator const &it)
+{
+    if (!it->alive())
+        return; // already dead
+
+    kill(it.d_idx);
+}
+
+void Population::kill(int idx)
+{
+    // Assumed that checks on idx are already performed
+
+    d_agents[idx].kill();
     d_deadIndices.push(idx);
 
     if (size() == 0)
@@ -59,7 +73,10 @@ void Population::kill(Agent &agent)
     { // update d_last
         while (!d_agents[--d_last]) {}
     }
+
 }
+
+
 
 int Population::getIdx(Agent const &agent) const
 {

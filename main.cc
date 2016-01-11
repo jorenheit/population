@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstdlib>
 
 void run(int nStart, int nYears);
 
@@ -11,8 +12,9 @@ try
         return 1;
     }
 
-    std::srand(time(0));
-    run(std::stoi(argv[1]), std::stoi(argv[2]));
+   std::srand(time(0));
+   std::srand(0);
+   run(std::stoi(argv[1]), std::stoi(argv[2]));
 }
 catch (std::string const &msg)
 {
