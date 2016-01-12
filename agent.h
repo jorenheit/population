@@ -28,7 +28,7 @@ class Agent
     int d_nChildren = 0;
 
 public:
-    Agent(Gender g, Coordinate const &c = Coordinate(), int age = 0);
+    Agent(Gender g = Gender::MALE, Coordinate const &c = Coordinate(), int age = 0);
 
     void getOlder(int amount = 1);
     void giveBirth(); 
@@ -39,6 +39,7 @@ public:
     int nChildren() const;
     int age() const;
     bool alive() const;
+    size_t id() const;
     Coordinate const &coordinate() const;
     operator bool() const;
     bool operator==(Agent const &other) const;

@@ -11,8 +11,6 @@ class PopulationIterator__
 {
     // List of friend declarations. Only these classes/functions are
     // allowed to construct iterators. 
-    friend PopulationIterator__ begin<Population_t>(Population_t &);
-    friend PopulationIterator__ end<Population_t>(Population_t &);
     friend class PopulationIterator__<Population>; // for the implicit conversion
     friend Population_t;
 

@@ -2,7 +2,6 @@
 #define POPULATION_H
 
 #include <vector>
-#include <cstdlib>
 #include <stack>
 #include "agent.h"
 
@@ -55,7 +54,6 @@ Population initialPopulation(int nStart);
 template <typename AgentIter>
 Population::Population(AgentIter it, AgentIter end)
 {
-    int idx = 0;
     while (it != end)
         d_agents.emplace_back(*it++);
 

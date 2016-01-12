@@ -46,6 +46,11 @@ bool Agent::alive() const
 {
     return d_alive;
 }
+
+size_t Agent::id() const
+{
+    return d_id;
+}
     
 Agent::operator bool() const
 { 

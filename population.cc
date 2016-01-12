@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include "population.h"
 
 Population::Population(int nStart):
@@ -76,26 +77,43 @@ void Population::kill(int idx)
 
 }
 
-
-
 int Population::getIdx(Agent const &agent) const
 {
     int idx = &agent - &d_agents[0];
     if (idx < 0 || idx >= static_cast<int>(d_agents.size()))
+    {
+        for (size_t idx = 0; idx != d_agents.size(); ++idx)
+            if (d_agents[idx] == agent)
+                return idx;
+
         throw std::string("Attempted to get the index of an agent that is not part of the population.");
+    }
 
     return idx;
 }
 
 PopulationIterator__<Population> Population::find(Agent const &agent)
 {
-    return PopulationIterator__<Population>(*this, agent);
+    try {    
+        return PopulationIterator__<Population>(*this, agent);
+    }
+    catch (...)
+    {
+        return end();
+    }
 }
 
 
 PopulationIterator__<Population const> Population::find(Agent const &agent) const
 {
-    return PopulationIterator__<Population const>(*this, agent);
+    try {    
+        return PopulationIterator__<Population const>(*this, agent);
+    }
+    catch (...)
+    {
+        return end();
+    }
+
 }
 
 PopulationIterator__<Population> Population::begin() 
