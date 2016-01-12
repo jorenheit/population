@@ -9,10 +9,9 @@ PopulationIterator__<Population_t> end(Population_t &);
 template <typename Population_t>
 class PopulationIterator__
 {
-    // List of friend declarations. Only these classes/functions are
-    // allowed to construct iterators. 
-    friend class PopulationIterator__<Population>; // for the implicit conversion
-    friend Population_t;
+    // Only these classes are allowed to construct iterators. 
+    friend class PopulationIterator__<Population>; // for the implicit conversion non-const to const
+    friend Population_t; // begin() and end()
 
     using Index_t = signed long long;
 
@@ -71,10 +70,16 @@ public:
     {
         if (d_idx == d_population.d_first)
             return *this;
-
+        
         if (d_population.size() == 0)
         {
             d_idx = static_cast<Index_t>(IteratorValue::END);
+            return *this;
+        }
+
+        if (d_idx == static_cast<Index_t>(IteratorValue::END))
+        {
+            d_idx = d_population.d_last;
             return *this;
         }
             

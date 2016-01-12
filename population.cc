@@ -174,8 +174,8 @@ Population initialPopulation(int nStart)
         int n = fractions[i] * nStart;
         for (int j = 0; j != n; ++j)
         {
-            int age = minAge + ageDiff * (static_cast<double>(std::rand()) / RAND_MAX);
             Gender g = std::rand() % 2 ? Gender::MALE : Gender::FEMALE;
+            int age = minAge + ageDiff * (static_cast<double>(std::rand()) / RAND_MAX);
             result.add(Agent(g, Coordinate(), age));
         }
 
