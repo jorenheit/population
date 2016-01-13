@@ -60,8 +60,7 @@ public:
         }
 
         // Look for next alive agent
-        while (!d_population[++d_idx]) 
-        {}
+        while (!d_population[++d_idx]) {}
 
         return *this;
     }
@@ -70,23 +69,13 @@ public:
     {
         if (d_idx == d_population.d_first)
             return *this;
-        
-        if (d_population.size() == 0)
-        {
+        else if (d_population.size() == 0)
             d_idx = static_cast<Index_t>(IteratorValue::END);
-            return *this;
-        }
-
-        if (d_idx == static_cast<Index_t>(IteratorValue::END))
-        {
+        else if (d_idx == static_cast<Index_t>(IteratorValue::END))
             d_idx = d_population.d_last;
-            return *this;
-        }
-            
-        // Look for previous alive agent
-        while (!d_population[--d_idx]) 
-        {}
-        
+        else
+            while (!d_population[--d_idx]) {}
+
         return *this;
     }
 

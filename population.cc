@@ -56,7 +56,6 @@ void Population::kill(PopulationIterator const &it)
 void Population::kill(int idx)
 {
     // Assumed that checks on idx are already performed
-
     d_agents[idx].kill();
     d_deadIndices.push(idx);
 
@@ -118,28 +117,24 @@ PopulationIterator__<Population const> Population::find(Agent const &agent) cons
 
 PopulationIterator__<Population> Population::begin() 
 { 
-//    return ::begin(*this);
     using Iter_t = PopulationIterator__<Population>;
     return Iter_t(*this, size() ? Iter_t::IteratorValue::BEGIN : Iter_t::IteratorValue::END); 
 }
 
 PopulationIterator__<Population> Population::end() 
 { 
-//    return ::end(*this);
     using Iter_t = PopulationIterator__<Population>;
     return Iter_t(*this, Iter_t::IteratorValue::END); 
 }
 
 PopulationIterator__<Population const> Population::begin() const
 { 
-//    return ::begin(*this)
     using Iter_t = PopulationIterator__<Population const>;
     return Iter_t(*this, size() ? Iter_t::IteratorValue::BEGIN : Iter_t::IteratorValue::END); 
 }
 
 PopulationIterator__<Population const> Population::end() const
 { 
-//    return ::end(*this);
     using Iter_t = PopulationIterator__<Population const>;
     return Iter_t(*this, Iter_t::IteratorValue::END); 
 }
@@ -184,9 +179,9 @@ Population initialPopulation(int nStart)
     
     for (int i = 0; i != nStart - nTotal; ++i)
     {
+        Gender g = std::rand() % 2 ? Gender::MALE : Gender::FEMALE;
         int age = ages[0][0] + (ages[N_AGE_CATEGORIES - 1][1] - ages[0][0]) * 
             (static_cast<double>(std::rand()) / RAND_MAX);
-        Gender g = std::rand() % 2 ? Gender::MALE : Gender::FEMALE;
         result.add(Agent(g, Coordinate(), age));
     }
 

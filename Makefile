@@ -1,6 +1,6 @@
 CC=g++
-CFLAGS=-c -Wall --std=c++11 -O3
-LDFLAGS=-lm
+CFLAGS=-c -Wall --std=c++11 -O2 -pg
+LDFLAGS=-lm -pg
 SOURCES=main.cc \
 run.cc \
 population.cc \
